@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -10,7 +11,21 @@ builder.Services.AddControllers()
         options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen().AddSwaggerGenNewtonsoftSupport();
+builder.Services.AddSwaggerGen(
+    c =>
+    {
+        c.SwaggerDoc(
+            "v1",
+            new OpenApiInfo {
+                Title = "Trivia API",
+                Version = "v1",
+                Description = "Demo webservice for fetching trivia questions, made possible with https://opentdb.com/."
+            }
+        );
+        var filePath = Path.Combine(System.AppContext.BaseDirectory, "TriviaApi.xml");
+        c.IncludeXmlComments(filePath);
+    }
+).AddSwaggerGenNewtonsoftSupport();
 
 builder.Services.AddHttpClient("trivia", c =>
 {

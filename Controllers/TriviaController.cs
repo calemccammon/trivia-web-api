@@ -7,12 +7,25 @@ using TriviaApi.Model;
 
 namespace TriviaApi.Controllers;
 
+/// <summary>
+/// Controller for the TriviaAPI
+/// </summary>
+/// <param name="factory"></param>
 [ApiController]
 [Route("[controller]")]
 public class TriviaController(IHttpClientFactory factory) : ControllerBase
 {
     private readonly IHttpClientFactory _factory = factory;
 
+    /// <summary>
+    /// Fetches questions based on the given parameters
+    /// </summary>
+    /// <param name="difficulty"></param>
+    /// <param name="category"></param>
+    /// <param name="type"></param>
+    /// <param name="amount"></param>
+    /// <returns></returns>
+    /// <exception cref="HttpRequestException"></exception>
     [HttpGet("GetQuestion")]
     [Produces("application/json")]
     public async Task<TriviaList> GetQuestion(
